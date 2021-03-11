@@ -41,7 +41,8 @@ restaurantSchema.methods = {
    */
   getScore: function (userId) {
     let hasUserScoresIndex = this.userScores.findIndex((e) => {
-      return e.openid === userId;
+      // TODO: type check
+      return e.user_id == userId;
     });
     return hasUserScoresIndex === -1
       ? -1
@@ -54,7 +55,7 @@ restaurantSchema.methods = {
   /**
    *
    * @param {Object} preScore -1 or a object of existing userScore
-   * @param {Object} data { openid, score }
+   * @param {Object} data { user_id, score }
    * @returns {Object} { message }
    */
   updateScore: async function (preScore, data) {

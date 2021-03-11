@@ -97,7 +97,8 @@ app.put("/restaurant/:id/score", async (req, res) => {
   let code, result;
   try {
     const doc = await modules.Restaurant.findById(req.params.id);
-    const preScore = await doc.getScore(req.body.openid);
+    const preScore = await doc.getScore(req.body.user_id);
+    // TODO: data match { user_id: Number, score: Number }
     result = await doc.updateScore(preScore, req.body);
     code = 200;
   } catch (err) {

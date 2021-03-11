@@ -84,7 +84,7 @@ app.get("/restaurant/:id/score", async (req, res) => {
     const doc = await modules.Restaurant.findById(req.params.id);
     const preScore = await doc.getScore(req.query.userId);
     code = 200;
-    preScore !== -1 ? (result = preScore.data.score) : (result = -1);
+    preScore !== -1 ? (result = preScore.data) : (result = { score: -1 });
   } catch (err) {
     code = 500;
     result = err;

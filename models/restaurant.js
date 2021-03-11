@@ -29,9 +29,9 @@ restaurantSchema.methods = {
       this.authentic = true;
       this.resID = newResID;
       await this.save();
-      return 200;
+      return { code: 200, message: "授权成功" };
     }
-    return 201;
+    return { code: 201, message: "已经授权" };
   },
 
   /**
@@ -103,7 +103,9 @@ restaurantSchema.statics = {
       start++;
       num--;
     }
-    const dataList =  await this.find({ resID: { $exists: true, $in: resIDArr } });
+    const dataList = await this.find({
+      resID: { $exists: true, $in: resIDArr },
+    });
 
     // replace img URL
     const client = new OSS({
@@ -126,9 +128,7 @@ restaurantSchema.statics = {
 
     for (let i = 0; i < dataList.length; i++) {
       // get URL
-      if (
-        await isExistObject(`GZHU-Pi/restaurants/${dataList[i].img}.jpg`)
-      ) {
+      if (await isExistObject(`GZHU-Pi/restaurants/${dataList[i].img}.jpg`)) {
         dataList[i].img = client.signatureUrl(
           `GZHU-Pi/restaurants/${dataList[i].img}.jpg`
         );
@@ -136,7 +136,7 @@ restaurantSchema.statics = {
         dataList[i].img = "";
       }
     }
-    return dataList
+    return dataList;
   },
 };
 

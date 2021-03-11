@@ -21,6 +21,8 @@ inputs:
     environment:
       variables:
         MONGODB_CONNECT_STRING: ${env:MONGODB_CONNECT_STRING}
+        ALI_SECRET_ID: ${env:ALI_SECRET_ID}
+        ALI_SECRET_KEY: ${env:ALI_SECRET_KEY}
         SendKey: ${env:SendKey}
     eip: false
     timeout: 30

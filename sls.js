@@ -60,13 +60,15 @@ app.post("/restaurant", async (req, res) => {
 });
 
 app.put("/restaurant/:id/authentication", async (req, res) => {
-  let code, result, already;
+  let code, result;
   try {
     const doc = await modules.Restaurant.findById(req.params.id);
 
-    code = await modules.Restaurant.countDocuments({ authentic: true })
+    await modules.Restaurant.countDocuments({ authentic: true })
       .then(async (count) => {
-        doc.authenticate(count);
+        const auth = await doc.authenticate(count);
+        code = auth.code;
+        result = auth.message;
       })
       .catch((err) => console.error(err));
   } catch (err) {

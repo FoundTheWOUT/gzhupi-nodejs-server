@@ -4,7 +4,8 @@
   "main": "sls.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon sls.js",
-    "deploy": "sls deploy"
+    "deploy": "sls deploy",
+    "prepare": "husky install"
   },
   "author": "FoundTheWOUT",
   "dependencies": {
@@ -16,17 +17,9 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "express": "^4.17.1",
-    "husky": "^5.0.9",
-    "lint-staged": "^10.5.4",
+    "husky": "^5.1.3",
     "mongoose": "^5.11.15",
-    "prettier": "^2.2.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js}": "prettier --write"
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0"
   }
 }

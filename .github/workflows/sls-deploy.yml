@@ -3,7 +3,7 @@ name: deploy CI
 on:
   workflow_dispatch:
   push:
-    branches: 
+    branches:
       - main
 
 jobs:
@@ -27,3 +27,5 @@ jobs:
           TENCENT_SECRET_ID: ${{ secrets.SECRET_ID }}
           TENCENT_SECRET_KEY: ${{ secrets.SECRET_KEY }}
           MONGODB_CONNECT_STRING: ${{ secrets.MONGODB_CONNECT_STRING }}
+          ALI_SECRET_ID: ${{ secrets.ALI_SECRET_ID}}
+          ALI_SECRET_KEY: ${{ secrets.ALI_SECRET_KEY }}

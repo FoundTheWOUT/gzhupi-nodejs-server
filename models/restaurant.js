@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const OSS = require("ali-oss");
+
+require("dotenv").config();
 
 const restaurantSchema = new mongoose.Schema({
   resID: Number,
@@ -92,14 +95,49 @@ restaurantSchema.methods = {
   },
 };
 
-restaurantSchema.statics.findByNumber = async function (start, num) {
-  let resIDArr = [];
-  while (num > 0) {
-    resIDArr.push(Number(start));
-    start++;
-    num--;
-  }
-  return await this.find({ resID: { $exists: true, $in: resIDArr } });
+restaurantSchema.statics = {
+  findByNumber: async function (start, num) {
+    let resIDArr = [];
+    while (num > 0) {
+      resIDArr.push(Number(start));
+      start++;
+      num--;
+    }
+    const dataList =  await this.find({ resID: { $exists: true, $in: resIDArr } });
+
+    // replace img URL
+    const client = new OSS({
+      region: "oss-cn-shenzhen",
+      accessKeyId: process.env.ALI_SECRET_ID,
+      accessKeySecret: process.env.ALI_SECRET_KEY,
+      bucket: "drimagebed",
+    });
+
+    async function isExistObject(name, options = {}) {
+      try {
+        await client.head(name, options);
+      } catch (error) {
+        if (error.code === "NoSuchKey") {
+          return 0;
+        }
+      }
+      return 1;
+    }
+
+    for (let i = 0; i < dataList.length; i++) {
+      // get URL
+      if (
+        await isExistObject(`GZHU-Pi/restaurants/${dataList[i].img}.jpg`)
+      ) {
+        dataList[i].img = client.signatureUrl(
+          `GZHU-Pi/restaurants/${dataList[i].img}.jpg`
+        );
+      } else {
+        dataList[i].img = "";
+      }
+    }
+    return dataList
+  },
 };
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);

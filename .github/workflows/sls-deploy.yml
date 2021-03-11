@@ -1,0 +1,23 @@
+name: deploy CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [$default-branch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: deploy
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - run: npm install
+      - run: npm deploy
+        env:
+          TENCENT_SECRET_ID: ${{secrets.SECRET_ID}}
+          TENCENT_SECRET_KEY: ${{secrets.SECRET_KEY}}
+          MONGODB_CONNECT_STRING: ${{secrets.MONGODB}}

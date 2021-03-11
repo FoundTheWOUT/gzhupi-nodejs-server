@@ -1,0 +1,32 @@
+{
+  "name": "gzhupi-nodejs-server",
+  "version": "0.1.0",
+  "main": "sls.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon sls.js",
+    "deploy": "sls deploy"
+  },
+  "author": "FoundTheWOUT",
+  "dependencies": {
+    "ali-oss": "^6.13.2",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "express": "^4.17.1",
+    "husky": "^5.0.9",
+    "lint-staged": "^10.5.4",
+    "mongoose": "^5.11.15",
+    "prettier": "^2.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js}": "prettier --write"
+  }
+}

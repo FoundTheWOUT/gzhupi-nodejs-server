@@ -1,0 +1,27 @@
+component: express
+name: express
+app: express-mongodb
+stage: dev
+inputs:
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: Nodejs10.15
+  apigatewayConf:
+    protocols:
+      - http
+      - https
+    environment: release
+    serviceTimeout: 60
+    autoCreateDns: false
+  isAutoCiDeploy: false
+  functionConf:
+    environment:
+      variables:
+        MONGODB_CONNECT_STRING: ${env:MONGODB_CONNECT_STRING}
+        SendKey: ${env:SendKey}
+    eip: false
+    timeout: 30
+    memorySize: 128

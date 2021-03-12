@@ -1,14 +1,16 @@
 const https = require("https");
 const qs = require("querystring");
 
-if (process.env.NODE_ENV === "development") {
-  require("dotenv").config();
-}
+require("dotenv").config();
 
-function notify(number) {
+/**
+ *
+ * @param {Object} { title, body }
+ */
+function notify({ title, body }) {
   const data = qs.stringify({
-    title: "餐厅更新",
-    desp: `现有${number}个餐厅未认证`,
+    title: title,
+    desp: body,
   });
 
   const options = {

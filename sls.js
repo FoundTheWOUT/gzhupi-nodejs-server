@@ -48,7 +48,12 @@ app.post("/restaurant", async (req, res) => {
     Object.assign(req.body, { lastEditDate: date.toISOString() });
     await modules.Restaurant.create(req.body).then((data) => {
       // ! 调整通知状态
-      // notify(3)
+      modules.Restaurant.countDocuments({ authentic: false }).then(
+        async (count) => {
+          // notify(count);
+          notify({ title: "餐厅更新", body: `现有${count}个餐厅未认证` });
+        }
+      );
       code = 200;
       result = data;
     });
